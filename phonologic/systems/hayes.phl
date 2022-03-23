@@ -1,0 +1,222 @@
+<default> = [?voice, ?syllabic, ?consonantal, ?approximant, ?sonorant, ?continuant, -tap, -trill, -nasal, -spreadglottis, -constrictedglottis, ?labiodental, ?coronal, ?delayedrelease, ?dorsal, ?labial, ?lateral, ?anterior, ?distributed, ?high, ?low, ?strident, ?round, ?tense, ?front, ?back]
+
+##############
+# Vowel defaults: Hayes p. 98, also [lateral, dorsal] are specified in https://linguistics.ucla.edu/people/hayes/120a/Index.htm#features
+############
+
+<vowel_default> = [+voice, -tap, -trill, -nasal, -spreadglottis, -constrictedglottis, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, +dorsal]
+
+##########################
+# Manner (Hayes p. 76-79)
+########################
+
+<vowel> =     [+syllabic, -consonantal, +approximant, +sonorant, +continuant, 0delayedrelease] <vowel_default>
+<glide> =     [-syllabic, -consonantal, +approximant, +sonorant, +continuant, 0delayedrelease]
+<liquid> =    [-syllabic, +consonantal, +approximant, +sonorant, +continuant, 0delayedrelease]
+<nasal> =     [-syllabic, +consonantal, -approximant, +sonorant, -continuant, 0delayedrelease, +nasal]
+<fricative> = [-syllabic, +consonantal, -approximant, -sonorant, +continuant, +delayedrelease]
+<affricate> = [-syllabic, +consonantal, -approximant, -sonorant, -continuant, +delayedrelease]
+<stop> =      [-syllabic, +consonantal, -approximant, -sonorant, -continuant, -delayedrelease]
+
+############
+# Laryngeal
+##########
+
+<voiceless> = [-voice]
+<voiced> = [+voice]
+
+########
+# Place
+######
+
+<bilabial> =           [+labial, -round, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, -dorsal, 0high, 0low, 0front, 0back, 0tense]
+<labiodental> =        [+labial, -round, +labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, -dorsal, 0high, 0low, 0front, 0back, 0tense]
+<dental> =             [-labial, -round, -labiodental, +coronal, +anterior, +distributed, -strident, -lateral, -dorsal, 0high, 0low, 0front, 0back, 0tense]
+<alveolar> =           [-labial, -round, -labiodental, +coronal, +anterior, -distributed, -strident, -lateral, -dorsal, 0high, 0low, 0front, 0back, 0tense]
+<palatoalveolar> =     [-labial, -round, -labiodental, +coronal, -anterior, +distributed, +strident, -lateral, -dorsal, 0high, 0low, 0front, 0back, 0tense]
+<retroflex> =          [-labial, -round, -labiodental, +coronal, -anterior, -distributed, -strident, -lateral, -dorsal, 0high, 0low, 0front, 0back, 0tense]
+<fronted_velar> =      [-labial, -round, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, +dorsal, +high, -low, +front, -back, 0tense]
+<velar> =              [-labial, -round, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, +dorsal, +high, -low, 0front, 0back, 0tense]
+<uvular> =             [-labial, -round, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, +dorsal, -high, -low, -front, +back, 0tense]
+<pharyngeal> =         [-labial, -round, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, +dorsal, -high, +low, -front, +back, 0tense]
+<glottal> =            [-labial, -round, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, -dorsal, 0high, 0low, 0front, 0back, 0tense]
+<labial_back_velar> =  [+labial, +round, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, +dorsal, +high, -low, -front, +back, +tense]
+<labial_velar> =       [+labial, -round, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, +dorsal, +high, -low, 0front, 0back, 0tense]
+<labial_front_velar> = [+labial, +round, -labiodental, -coronal, 0anterior, 0distributed, 0strident, -lateral, +dorsal, +high, -low, +front, -back, +tense]
+<alveolarpalatal> =    [-labial, -round, -labiodental, +coronal, +anterior, +distributed, +strident, -lateral, +dorsal, +high, -low, +front, -back, 0tense]
+<palatal> =            [-labial, -round, -labiodental, +coronal, -anterior, +distributed, -strident, -lateral, +dorsal, +high, -low, +front, -back, 0tense]
+
+#########################
+# Additional descriptors
+#######################
+
+<rounded_vowel> = <vowel> [+round, +labial]
+<unrounded_vowel> = <vowel> [-round, -labial]
+<tense> = [+tense]
+<lax> = [-tense]
+<low> = [+low, -high, 0tense]
+<mid> = [-low, -high]
+<high> = [-low, +high]
+<front> = [+front, -back]
+<center> = [-front, -back]
+<back> = [-front, +back]
+
+#############
+# Consonants
+###########
+
+p = <voiceless> <bilabial> <stop>
+b = <voiced> <bilabial> <stop>
+ɸ = <voiceless> <bilabial> <fricative>
+β = <voiced> <bilabial> <fricative>
+m = <voiced> <bilabial> <nasal>
+ʙ = <voiced> <bilabial> <liquid> [+trill]
+b͡β = <voiced> <bilabial> <affricate>
+p͡ɸ = <voiceless> <bilabial> <affricate>
+k͡p = <voiceless> <labial_velar> <stop>
+ɡ͡b = <voiced> <labial_velar> <stop>
+b͡d = <voiced> <bilabial> <stop> [+coronal, +strident, +anterior, -distributed]
+p͡t = <voiceless> <bilabial> <stop> [+coronal, +strident, +anterior, -distributed]
+w = <voiced> <labial_back_velar> <glide> [+round, -front]
+ʍ = <voiceless> <labial_back_velar> <fricative> [+round, -consonantal, +spreadglottis]
+ɥ = <voiced> <labial_front_velar> <glide> [+round, +front]
+p͡f = <voiceless> <labiodental> <affricate>
+f = <voiceless> <labiodental> <fricative>
+v = <voiced> <labiodental> <fricative>
+ɱ = <voiced> <labiodental> <nasal>
+ʋ = <voiced> <labiodental> <glide>
+b͡v = <voiced> <labiodental> <affricate>
+t̪ = <voiceless> <dental> <stop>
+d̪ = <voiced> <dental> <stop>
+ð = <voiced> <dental> <fricative> [-strident]
+θ = <voiceless> <dental> <fricative> [-lateral, -strident]
+ɬ̪ = <voiceless> <dental> <fricative> [+lateral]
+l̪ = <voiced> <dental> <liquid> [+lateral]
+r̪ = <voiced> <dental> <liquid> [+trill]
+n̪ = <voiced> <dental> <nasal>
+t̪͡θ = <voiceless> <dental> <affricate> [-strident, -lateral]
+d̪͡ð = <voiced> <dental> <affricate> [-strident, -lateral]
+t = <voiceless> <alveolar> <stop>
+d = <voiced> <alveolar> <stop>
+t͡s = <voiceless> <alveolar> <affricate> [+strident]
+d͡z = <voiced> <alveolar> <affricate> [+strident]
+t͡ɬ = <voiceless> <alveolar> <affricate> [+lateral]
+s = <voiceless> <alveolar> <fricative> [+strident]
+z = <voiced> <alveolar> <fricative> [+strident]
+n = <voiced> <alveolar> <nasal>
+l = <voiced> <alveolar> <liquid> [+lateral, -tap]
+ɬ = <voiceless> <alveolar> <fricative> [+lateral]
+ɮ = <voiced> <alveolar> <fricative> [+lateral]
+ɾ = <voiced> <alveolar> <liquid> [+tap]
+ɺ = <voiced> <alveolar> <liquid> [+lateral, +tap]
+r = <voiced> <alveolar> <liquid> [+trill]
+s̪ = <voiceless> <alveolar> <fricative> [+strident, +distributed]
+z̪ = <voiced> <alveolar> <fricative> [+strident, +distributed]
+ɫ = <voiced> <alveolar> <liquid> <mid> <back> [+lateral, +dorsal]
+d͡ɮ = <voiced> <alveolar> <affricate> [+lateral]
+d̪͡ɮ̪ = <voiced> <alveolar> <affricate> [+lateral, -strident, +distributed]
+t̪͡ɬ̪ = <voiceless> <alveolar> <affricate> [+lateral, -strident, +distributed]
+t̪͡s̪ = <voiceless> <alveolar> <affricate> [-lateral, +strident, +distributed]
+d̪͡z̪ = <voiced> <alveolar> <affricate> [-lateral, +strident, +distributed]
+t͡ʃ = <voiceless> <palatoalveolar> <affricate>
+d͡ʒ = <voiced> <palatoalveolar> <affricate>
+ʃ = <voiceless> <palatoalveolar> <fricative>
+ʒ = <voiced> <palatoalveolar> <fricative>
+ɹ = <voiced> <palatoalveolar> <glide> [-strident]
+ʈ = <voiceless> <retroflex> <stop>
+ɖ = <voiced> <retroflex> <stop>
+ʂ = <voiceless> <retroflex> <fricative> [+strident]
+ʐ = <voiced> <retroflex> <fricative> [+strident]
+ɳ = <voiced> <retroflex> <nasal>
+ɭ = <voiced> <retroflex> <liquid> [+lateral]
+ɽ = <voiced> <retroflex> <liquid> [+tap]
+ɻ = <voiced> <retroflex> <liquid> [-lateral, -tap]
+ɖ͡ʐ = <retroflex> <affricate> <voiced> [+strident]
+ʈ͡ʂ = <retroflex> <affricate> <voiceless> [+strident]
+j = <voiced> <fronted_velar> <glide> [+front, -back, +tense]
+k = <voiceless> <velar> <stop>
+ɡ = <voiced> <velar> <stop>
+ŋ = <voiced> <velar> <nasal>
+k͡x = <voiceless> <velar> <affricate>
+ɡ͡ɣ = <voiced> <velar> <affricate>
+x = <voiceless> <velar> <fricative>
+ɣ = <voiced> <velar> <fricative>
+ʟ = <voiced> <velar> <liquid> [+lateral]
+ɰ = <voiced> <velar> <glide> [+tense]
+q = <voiceless> <uvular> <stop>
+ɢ = <voiced> <uvular> <stop>
+χ = <voiceless> <uvular> <fricative>
+ʁ = <voiced> <uvular> <fricative>
+ɴ = <voiced> <uvular> <nasal>
+ʀ = <voiced> <uvular> <liquid> [+trill]
+q͡χ = <voiceless> <uvular> <affricate>
+ɢ͡ʁ = <voiced> <uvular> <affricate>
+ħ = <voiceless> <pharyngeal> <fricative>
+ʕ = <voiced> <pharyngeal> <fricative>
+ɦ = <voiced> <glottal> <fricative> [-consonantal, +spreadglottis]
+h = <voiceless> <glottal> <fricative> [-consonantal, +spreadglottis]
+ʔ = <voiceless> <glottal> <stop> [+constrictedglottis]
+t͡ɕ = <voiceless> <alveolarpalatal> <affricate>
+d͡ʑ = <voiced> <alveolarpalatal> <affricate>
+ɕ = <voiceless> <alveolarpalatal> <fricative>
+ʑ = <voiced> <alveolarpalatal> <fricative>
+c = <voiceless> <palatal> <stop>
+ɟ = <voiced> <palatal> <stop>
+ç = <voiceless> <palatal> <fricative>
+ç = ç
+ʝ = <voiced> <palatal> <fricative>
+ɲ = <voiced> <palatal> <nasal>
+ʎ = <voiced> <palatal> <liquid> [+lateral]
+ɧ = <voiceless> <palatal> <fricative> [+strident, 0front, 0back]
+c͡ç = <voiceless> <palatal> <affricate>
+ɟ͡ʝ = <voiced> <palatal> <affricate>
+
+#########
+# Vowels
+#######
+
+# Diphthongs use special symbols: `+-` means the feature goes from present to absent, `-+` is the reverse.
+# Ignoring how tense goes from 0 to - on /a͡ʊ/ and /a͡ɪ/, since they're distinctive without, and the difference
+# is probably trivial.
+
+i = <high> <front> <tense> <unrounded_vowel>
+y = <high> <front> <tense> <rounded_vowel>
+ɨ = <high> <center> <tense> <unrounded_vowel>
+ʉ = <high> <center> <tense> <rounded_vowel>
+ɯ = <high> <back> <tense> <unrounded_vowel>
+u = <high> <back> <tense> <rounded_vowel>
+ɪ = <high> <front> <lax> <unrounded_vowel>
+ʏ = <high> <front> <lax> <rounded_vowel>
+ʊ = <high> <back> <lax> <rounded_vowel>
+e = <mid> <front> <tense> <unrounded_vowel>
+ø = <mid> <front> <tense> <rounded_vowel>
+ɘ = <mid> <center> <tense> <unrounded_vowel>
+ɵ = <mid> <center> <tense> <rounded_vowel>
+ɤ = <mid> <back> <tense> <unrounded_vowel>
+o = <mid> <back> <tense> <rounded_vowel>
+ɛ = <mid> <front> <lax> <unrounded_vowel>
+œ = <mid> <front> <lax> <rounded_vowel>
+ə = <mid> <center> <lax> <unrounded_vowel>
+ɞ = <mid> <center> <lax> <rounded_vowel>
+ʌ = <mid> <back> <lax> <unrounded_vowel>
+ɔ = <mid> <back> <lax> <rounded_vowel>
+æ = <low> <front> <unrounded_vowel> [0tense]
+ɶ = <low> <front> <rounded_vowel> [0tense]
+a = <low> <center> <unrounded_vowel> [0tense]
+ɐ = <low> <center> <tense> <unrounded_vowel> [0tense]
+ɑ = <low> <back> <unrounded_vowel> [0tense]
+ɒ = <low> <back> <rounded_vowel> [0tense]
+
+
+ɝ = ɹ [+syllabic]
+
+a͡ʊ = a [-+high, +-low, -+back, -+round]
+aʊ = a͡ʊ
+a͡ɪ = a [-+high, +-low, -+front]
+aɪ = a͡ɪ
+e͡ɪ = e [-+high, +-tense]
+eɪ = e͡ɪ
+o͡ʊ = o [-+high, +-tense]
+oʊ = o͡ʊ
+ɔ͡ɪ = ɔ [-+high, -+front, +-back, +-round]
+ɔɪ = ɔ͡ɪ
