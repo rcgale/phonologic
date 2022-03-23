@@ -129,9 +129,8 @@ the second vowel indicates direction more than destination. So as we approximate
 them primarily in the space of the first vowel, then we move toward the second phoneme, but only by a *half-feature*. 
 
 We'll admit this feels like a hack, and we hope to learn how to improve upon it, but sometimes a hack is how to get a 
-job done. We note, however, that while phonological feature theory is founded on empirical principles, its recent 
-application as a distance metric (to our knowledge) has no empirical basis. Thus, "phonological distance" is (at best) 
-only an approximation of acoustic/perceptual similarity.
+job done. We also note that a "phonological distance" is not a precise measure of acoustic/perceptual similarity to 
+begin with.
 
 Here's some code for the "call"/"coal" example. With the diphthong split, we can see the cost of [+tense] is 1/26 (about
 0.038), but the insertion brings a cost of 24/26 (about 0.923). Computing the distance using our half-feature rules, we
