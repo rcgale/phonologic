@@ -7,6 +7,8 @@ With many similarities to the fantastic tool [`panphon`](https://github.com/dmor
 computed between strings of phonemes. One major enhancement, though, is the ability to obtain a step-by-step trace of
 the computation.
 
+We also include a tool `phonologic-viewer` to visually trace and explore phonological feature comparison
+
 ### Table of Contents
 
 1. [Installation](#installation)
@@ -15,7 +17,7 @@ the computation.
    1. [Included Systems](#included-systems)
    2. [Composing/modifying your own system](#composingmodifying-your-own-system)
    3. [Diphthongs](#diphthongs)
-4. [Interactive Phonological Distance Viewer](#interactive-phonological-distance-viewer)
+4. [Interactive Phonological Distance Viewer `phonologic-viewer`](#interactive-phonological-distance-viewer)
 
 
 ## Installation
@@ -185,7 +187,7 @@ for step in analysis.steps:
 ```
 
 
-## Interactive Phonological Distance Viewer
+## Interactive Phonological Distance Viewer `phonologic-viewer`
 
 The `phonologic-viewer` tool gives you a chance to visually explore a phonological distance computation. 
 Please note that we provide no guarantee of support, but we hope you find it helpful, informative, and perhaps 
