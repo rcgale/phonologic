@@ -11,7 +11,7 @@ class ParallelAnalyzer:
         self.system = system
 
     def __call__(self, args):
-        id, (expected, actual) = args
+        id, expected, actual = args
         analysis_phon = self.system.analyze_phoneme_errors(expected, actual)
         analysis_feat = self.system.analyze_feature_errors(expected, actual)
         return id, {
@@ -19,9 +19,11 @@ class ParallelAnalyzer:
             "phonemes": analysis_phon,
         }
 
-    def analyze_parallel(self, expecteds, actuals, n_jobs) -> ErrorAnalysisDict:
+    def analyze_parallel(self, expecteds, actuals, n_jobs, index=None) -> ErrorAnalysisDict:
         expecteds = list(expecteds)  # ensure we have a len()
-        job_args = enumerate(zip(expecteds, actuals))
+        if index is None:
+            index = range(len(expecteds))
+        job_args = zip(index, expecteds, actuals)
 
         if n_jobs == 1:
             jobs = (self(job) for job in job_args)

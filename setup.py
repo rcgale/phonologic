@@ -24,4 +24,9 @@ setuptools.setup(
             '**/*.json',
         ]
     },
+    entry_points={
+        'console_scripts': [
+            'phonologic-viewer = phonologic.viewer:main',
+        ],
+    },
 )

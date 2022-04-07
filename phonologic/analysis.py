@@ -72,9 +72,9 @@ def do_asr_evaluation(
 def analyze_file(filename, column_index, column_expected, column_actual, system_name, n_jobs):
     logger.info(f"Analyzing file {filename}")
     system = phonologic.load(system_name)
-    expecteds, actuals = _parse_input_file(filename, column_index, column_expected, column_actual)
+    index, expecteds, actuals = _parse_input_file(filename, column_index, column_expected, column_actual)
     analyzer = ParallelAnalyzer(system)
-    return analyzer.analyze_parallel(expecteds, actuals, n_jobs)
+    return analyzer.analyze_parallel(expecteds, actuals, n_jobs, index=index)
 
 
 def write_tsv(filename, rows):
@@ -133,17 +133,19 @@ def _parse_input_file(filename, column_index, column_expected, column_actual) ->
         header = next(reader)
         if len(header) < 2:
             raise ValueError(f"Problem parsing input file {filename}")
+
         if len(header) == 2:
-            idx_index = 0 if column_expected is None else header.index(column_index)
             idx_expected = 0 if column_expected is None else header.index(column_expected)
             idx_actual = 1 if column_actual is None else header.index(column_actual)
+            index = None
+            expecteds, actuals = zip(*((row[idx_expected], row[idx_actual]) for row in reader))
         else:
             idx_index = 0 if column_expected is None else header.index(column_index)
             idx_expected = 1 if column_expected is None else header.index(column_expected)
             idx_actual = 2 if column_actual is None else header.index(column_actual)
+            index, expecteds, actuals = zip(*((row[idx_index], row[idx_expected], row[idx_actual]) for row in reader))
 
-        expecteds, actuals = zip(*((row[idx_expected], row[idx_actual]) for row in reader))
-        return expecteds, actuals
+        return index, expecteds, actuals
 
 
 def main():
