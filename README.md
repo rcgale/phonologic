@@ -7,7 +7,7 @@ With many similarities to the fantastic tool [`panphon`](https://github.com/dmor
 computed between strings of phonemes. One major enhancement, though, is the ability to obtain a step-by-step trace of
 the computation.
 
-We also include a tool `phonologic-viewer` to visually trace and explore phonological feature comparison
+We also include a tool `phonologic-viewer` to visually trace and explore phonological feature comparisons.
 
 ### Table of Contents
 
