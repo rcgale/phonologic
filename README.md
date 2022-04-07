@@ -17,7 +17,7 @@ We also include a tool `phonologic-viewer` to visually trace and explore phonolo
    1. [Included Systems](#included-systems)
    2. [Composing/modifying your own system](#composingmodifying-your-own-system)
    3. [Diphthongs](#diphthongs)
-4. [Interactive Phonological Distance Viewer `phonologic-viewer`](#interactive-phonological-distance-viewer)
+4. [`phonologic-viewer` - an interactive phonological distance viewer](#phonologic-viewer---an-interactive-phonological-distance-viewer)
 
 
 ## Installation
@@ -187,7 +187,7 @@ for step in analysis.steps:
 ```
 
 
-## Interactive Phonological Distance Viewer `phonologic-viewer`
+## `phonologic-viewer` - an interactive phonological distance viewer
 
 The `phonologic-viewer` tool gives you a chance to visually explore a phonological distance computation. 
 Please note that we provide no guarantee of support, but we hope you find it helpful, informative, and perhaps 
