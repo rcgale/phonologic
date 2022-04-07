@@ -7,6 +7,27 @@ With many similarities to the fantastic tool [`panphon`](https://github.com/dmor
 computed between strings of phonemes. One major enhancement, though, is the ability to obtain a step-by-step trace of
 the computation.
 
+We also include a tool `phonologic-viewer` to visually trace and explore phonological feature comparisons.
+
+### Table of Contents
+
+1. [Installation](#installation)
+2. [Distance Calculations](#distance-calculations)
+3. [Feature Systems](#feature-systems)
+   1. [Included Systems](#included-systems)
+   2. [Composing/modifying your own system](#composingmodifying-your-own-system)
+   3. [Diphthongs](#diphthongs)
+4. [`phonologic-viewer` - an interactive phonological distance viewer](#phonologic-viewer---an-interactive-phonological-distance-viewer)
+
+
+## Installation
+
+With python installed, `phonologic` can be installed with pip like so:
+
+```python
+pip3 install phonologic
+```
+
 ## Distance calculations
 
 We're 
@@ -164,5 +185,39 @@ for step in analysis.steps:
 # PhonologicalActionStep(action=EQ, expected='l', actual='l', cost=0.0, features=FeatureCollection([]))
 
 ```
+
+
+## `phonologic-viewer` - an interactive phonological distance viewer
+
+The `phonologic-viewer` tool gives you a chance to visually explore a phonological distance computation. 
+Please note that we provide no guarantee of support, but we hope you find it helpful, informative, and perhaps 
+even fun!
+
+For input, we'll need an input file. The tool expects a file in tab-separated (.tsv) or comma-separated (.csv) format,
+with the first three columns containing an index/name, a reference transcript, and a transcript to compare to the 
+reference, respectively. An example file can be found at [docs/example_file.tsv](docs/example_file.tsv). If you place
+the file in your current directory, you can run the viewer with the command:
+
+```python
+phonologic-viewer --system hayes-arpabet example_file.tsv
+```
+
+Note that the example file uses ARPAbet, so the `hayes-arpabet` system is specified. If no system is specified, the 
+`hayes` (IPA) system is used by default.
+
+The command starts a local web server at `http://localhost:8000`. If you navigate to that URL, you can explore your results in
+an interactive way. Your transcripts with the highest FER appear first.
+
+<img src="docs/images/pssteval-viewer-list.png" style="max-width: 480px;">
+
+If you click on an Utterance ID from the table, you can see a full trace of the feature distance 
+computation. 
+Also, hover over the feature names in a trace
+to see the cost associated with it.
+
+<strike>There's also an audio player to let you hear the utterance while you're looking at its trace.</strike> (audio player coming soon, just need to add it to the input file format)
+
+<img src="docs/images/pssteval-viewer-detail.png" style="max-width: 480px;">
+
 
 

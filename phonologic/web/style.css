@@ -1,0 +1,225 @@
+        html {
+            height: 100%;
+            background: lightslategray;
+        }
+        body {
+            height: 100%;
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 1rem;
+        }
+        .align-right {
+            text-align: right;
+        }
+        #app {
+            height: 100%;
+        }
+        #results {
+            display: grid;
+            grid-template-columns: [begin] 1fr [middle] 1fr [right] 35rem [end];
+            grid-template-rows: [begin] auto [first] auto [second] 2fr [end];
+            height: 100%;
+            grid-gap: 0rem 1rem;
+        }
+        #top-pane {
+            grid-column: begin / right;
+            grid-row: begin / second;
+            grid-template-columns: 2fr 1fr;
+            display: grid;
+        }
+        .main-pane {
+            background: white;
+            box-shadow: 0px 5px 10px white;
+            padding: 1em;
+        }
+        #top-pane h1 {
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 1;
+        }
+        #error-summary {
+            grid-column: 2 / span 1;
+            grid-row: 1 / span 2;
+            background: white;
+            align-self: center;
+        }
+        #menu {
+            grid-column: 1 / span 1;
+            grid-row: 2 / span 1;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            background: white;
+        }
+        #right-pane {
+            grid-column: right / end;
+            grid-row: begin / end;
+            display: contents;
+            background: white;
+        }
+        #item {
+            grid-row: begin / second;
+            background: white;
+            padding: 1rem;
+        }
+        #result-table-wrapper {
+            max-width: 100%;
+            max-height: 100%;
+            overflow-y: scroll;
+            grid-column: begin / right;
+            grid-row: second / end;
+            background: white;
+            padding: 1rem;
+        }
+        #detail {
+            grid-column: right / end;
+            grid-row: second / end;
+            overflow: scroll;
+            background: white;
+            padding: 1rem;
+        }
+
+        #error-summary table {
+            text-align: center;
+        }
+
+        table#result-table {
+            width: 100%;
+            table-layout: fixed;
+        }
+        table#result-table thead {
+            text-align: center;
+        }
+        table#result-table .column-utterance-id {
+            width: 9em;
+        }
+        table#result-table .column-transcript {
+        }
+        th[colspan="2"] {
+            width: 12em;
+        }
+        table#result-table .column-error-metric {
+            text-align: right;
+            width: 4em;
+        }
+        table#result-table .column-error-counts {
+            text-align: right;
+            width: 8em;
+        }
+
+        table#result-table .highlight button {
+            background: #d9d0a5;
+        }
+        table#result-table .header-main {
+            grid-row-start: 2;
+        }
+        table#result-table button {
+            width: 100%;
+            height: 3.4em;
+        }
+
+        #item {
+            text-align: center;
+        }
+        #item h2 {
+            text-align: left;
+        }
+
+        .transcript-steps-wrapper {
+            white-space: nowrap;
+            overflow-y: auto;
+            padding: 1em;
+        }
+
+        .transcript-steps {
+            width: auto;
+            text-align: center;
+            display: inline-grid;
+            justify-content: start;
+            grid-template-rows: [expected] 1fr [actual] 1fr [end];
+            grid-template-columns: repeat(999, auto);
+            margin: 0 auto 0 auto;
+            gap: 0.6em;
+        }
+
+        .transcript-step {
+            display: contents;
+            text-align: center;
+            min-width: 1em;
+        }
+        .transcript-steps .expected, .transcript-steps .actual {
+            display: contents;
+        }
+        .transcript-steps .step-expected {
+            grid-row: expected / span 1;
+        }
+        .transcript-steps .step-actual {
+            grid-row: actual / span 1;
+        }
+
+
+        .transcript-step .highlight {
+            background: #d9d0a5;
+        }
+
+        table.feature-steps {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 22em;
+            grid-gap: 0.7em;
+            align-items: center;
+            white-space: nowrap;
+        }
+        table.feature-steps thead, table.feature-steps tbody, table.feature-steps tr {
+            display: contents;
+        }
+
+
+        ul.feature-collection {
+            width: fit-content;
+        }
+
+        .action-eq ul.feature-collection {
+            display: none;
+        }
+        .action-sub ul.feature-collection {
+            text-align: center;
+        }
+
+        ul.feature-collection li {
+            list-style: none;
+        }
+
+        .with-brackets {
+            background-image: linear-gradient(#000000, #000000),
+                            linear-gradient(#000000, #000000),
+                            linear-gradient(#000000, #000000),
+                            linear-gradient(#000000, #000000);
+
+            background-repeat: no-repeat;
+            background-size: 0.375em 0.0625em;
+            background-position: top left, top right, bottom left, bottom right;
+
+            border: solid #000000;
+            border-width: 0 0.125em;
+            padding: 1em;
+            color: #000000;
+        }
+
+        #details-error-rates {
+            display: inline-block;
+        }
+
+        audio {
+            margin: 1em 0 1em 0;
+            width: 10em;
+            float: right;
+        }
+
+        .transcript {
+            font-family: "Times New Roman", serif;
+        }
+
+        .transcript-steps .actual .step-error {
+            box-shadow: 0 0 4px #ff000022;
+            background: #ff000022;
+        }
