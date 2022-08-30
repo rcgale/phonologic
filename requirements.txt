@@ -1,1 +1,3 @@
 regex
+build  # python -m build
+twine  # twine upload dist/*
