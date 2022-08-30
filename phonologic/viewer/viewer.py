@@ -71,7 +71,17 @@ class AnalysisViewServer(http.server.SimpleHTTPRequestHandler):
         for file in analysis_files:
             web_path = os.path.join("/analysis-files", os.path.basename(file))
             path_map[web_path] = file
-            analysis_paths.append(web_path)
+            analysis_paths.append({
+                "name": file,
+                "path": web_path,
+                "split": (
+                    # Placeholder/hack
+                    "Train" if file.endswith("-train.json") else
+                    "Valid" if file.endswith("-valid.json") else
+                    "Test" if file.endswith("-test.json") else
+                    "Unknown"
+                )
+            })
 
         analysis_files_filename = os.path.join(temp_dir, "analysis-files.json")
         with open(analysis_files_filename, "w") as f:

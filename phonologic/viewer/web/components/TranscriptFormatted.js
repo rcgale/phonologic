@@ -20,7 +20,7 @@ export default {
                 return tokens.map(t => arpaToIpa[t] || t).join("");
             }
             else {
-                return tokens.join(" ");;
+                return tokens.join(" ");
             }
         },
     },

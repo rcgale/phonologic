@@ -7,14 +7,17 @@ export default {
         components: { AlignedSteps, Details, TranscriptFormatted, AudioPlayer },
         data() {
             return {
-                analysisFiles: [],
-                analysisFile: null,
+                splits: [],
+                split: null,
+                analyses: [],
+                analysis: null,
+                filteredAnalyses: null,
                 utterances: null,
                 details: {utteranceId: null, utterance: null},
                 detailHoverIndex: null,
                 overallFer: null,
                 overallPer: null,
-                alphabet: "arpabet",
+                alphabet: "ipa",
             }
         },
         methods: {
@@ -56,17 +59,29 @@ export default {
             transcriptActual(utterance) {
                 return utterance.features.steps.map(s => s.actual).filter(t => t);
             },
-            loadFile(path) {
+            loadFile(analysis) {
                 this.updateUtterances({per: 0.0, fer: 0.0, items: []});
-                fetch(path).then(r => r.json()).then(this.updateUtterances);
+                fetch(analysis.path).then(r => r.json()).then(this.updateUtterances);
             },
             selectFile(event) {
                 this.loadFile(event.target.value);
-            }
+            },
+            selectSplit(split) {
+                this.split = split;
+                this.filteredAnalyses = this.analyses.filter(a => a.split === split);
+                if (!this.analysis || this.analysis.split !== split) {
+                    this.loadFile(this.filteredAnalyses[0]);
+                }
+                else {
+                    console.log(this.analysis)
+                }
+            },
         },
         async created () {
-            this.analysisFiles = await fetch("./analysis-files.json").then(r => r.json());
-            await this.loadFile(this.analysisFiles[0]);
+            this.analyses = await fetch("./analysis-files.json").then(r => r.json());
+            this.splits = [...new Set(this.analyses.map(a => a.split))];
+            this.selectSplit(this.splits[0]);
+            await this.loadFile(this.filteredAnalyses[0]);
         },
     template: `
         <div id="results">
@@ -95,10 +110,16 @@ export default {
     
             </div>
             <div id="menu">
+                <div class="menu-item" id="split-picker" v-show="splits.length > 1">
+                    <div><label for="select-file">Split:</label></div>
+                    <select :model="split" @change="selectSplit($event.target.value)" id="select-split">
+                        <option v-for="s in splits" :value="s">{{s}}</option>
+                    </select>
+                </div>
                 <div class="menu-item" id="file-picker">
-                    <div><label for="select-file">Analysis file:</label></div>
-                    <select :model="analysisFile" @change="selectFile($event)" id="select-file">
-                        <option v-for="f in analysisFiles" :value="f">{{f.replace("/analysis-files/", "")}}</option>
+                    <div><label for="select-file">Analysis:</label></div>
+                    <select :model="analysis" @change="selectFile($event)" id="select-file">
+                        <option v-for="f in filteredAnalyses" :value="f">{{f.name}}</option>
                     </select>
                 </div>
                 <div class="menu-item" id="alphabet-picker">
