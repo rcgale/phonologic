@@ -18,6 +18,7 @@ export default {
                 overallFer: null,
                 overallPer: null,
                 alphabet: "ipa",
+                loading: true,
             }
         },
         methods: {
@@ -59,9 +60,13 @@ export default {
             transcriptActual(utterance) {
                 return utterance.features.steps.map(s => s.actual).filter(t => t);
             },
-            loadFile(analysis) {
+            loadFile(analysisPath) {
+                this.loading = true;
                 this.updateUtterances({per: 0.0, fer: 0.0, items: []});
-                fetch(analysis.path).then(r => r.json()).then(this.updateUtterances);
+                fetch(analysisPath).then(r => r.json()).then((r) => {
+                    this.updateUtterances(r);
+                    this.loading = false;
+                });
             },
             selectFile(event) {
                 this.loadFile(event.target.value);
@@ -70,7 +75,7 @@ export default {
                 this.split = split;
                 this.filteredAnalyses = this.analyses.filter(a => a.split === split);
                 if (!this.analysis || this.analysis.split !== split) {
-                    this.loadFile(this.filteredAnalyses[0]);
+                    this.loadFile(this.filteredAnalyses[0].path);
                 }
                 else {
                     console.log(this.analysis)
@@ -81,7 +86,7 @@ export default {
             this.analyses = await fetch("./analysis-files.json").then(r => r.json());
             this.splits = [...new Set(this.analyses.map(a => a.split))];
             this.selectSplit(this.splits[0]);
-            await this.loadFile(this.filteredAnalyses[0]);
+            await this.loadFile(this.filteredAnalyses[0].path);
         },
     template: `
         <div id="results">
@@ -90,7 +95,7 @@ export default {
                 PSST Error Analysis
             </h1>
             <div id="error-summary">
-                <table>
+                <table v-if="!loading">
                     <thead>
                         <tr>
                             <th colspan="2">Overall</th>
@@ -119,7 +124,7 @@ export default {
                 <div class="menu-item" id="file-picker">
                     <div><label for="select-file">Analysis:</label></div>
                     <select :model="analysis" @change="selectFile($event)" id="select-file">
-                        <option v-for="f in filteredAnalyses" :value="f">{{f.name}}</option>
+                        <option v-for="f in filteredAnalyses" :value="f.path">{{f.path.replace("/analysis-files/", "")}}</option>
                     </select>
                 </div>
                 <div class="menu-item" id="alphabet-picker">
@@ -132,7 +137,7 @@ export default {
             </div>
         </div>
         <div id="result-table-wrapper" class="main-pane">
-            <table id="result-table">
+            <table v-if="!loading" id="result-table">
                 <thead>
                     <tr class="header-extra">
                         <th class="column-utterance-id">&nbsp;</th>
@@ -173,6 +178,10 @@ export default {
                     </tr>
                 </tbody>
             </table>
+            <div v-if="loading" class="loading-container">
+                <div class="loader">&nbsp;</div>
+                Analyzing...
+            </div>
         </div>
         <div id="item" v-if="!!details.utterance" class="main-pane">
             <h2>{{details.utterance_id}}</h2>

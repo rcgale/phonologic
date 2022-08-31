@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='phonologic',
-    version='0.1.1',
+    version='0.2.0a2',
     author='Robert Gale',
     author_email='galer@ohsu.edu',
     packages=setuptools.find_packages(),
@@ -10,12 +10,14 @@ setuptools.setup(
     description='',
     install_requires=[
         'regex',
+        'tqdm',
     ],
     include_package_data=True,
     package_data={
-        'phonologic': [
+        '': [
             '**/*.py',
             '**/*.phl',
+            '**/*.js',
             '**/*.json',
             '**/*.html',
             '**/*.css',
