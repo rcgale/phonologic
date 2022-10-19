@@ -10,7 +10,7 @@ from ._error_analysis import PhonologicalActionStep, FeatureErrorAnalysis, Error
     edit_distance, ActionStep
 from ._error_analysis._levenshtein import default_cost_del, default_cost_ins
 from ._exceptions import MustHaveDefaultError, RedefinedSymbolError, InvalidFeatureVectorError, SymbolNotDefinedError, \
-    IncompleteFeatureVectorDefinitionError
+    IncompleteFeatureVectorDefinitionError, InvalidTokenError
 from ._file_parsing import SYMBOL, FEATURE_VALUES
 from ._file_parsing._spec import IGNORE_SYMBOLS, DEFAULT_SYMBOL, ZERO_COST_SYMBOLS
 
@@ -468,7 +468,7 @@ class PhonemeTokenizer:
                     begin += length
                     break
             if not found:
-                raise ValueError(f"Unrecognized token in '{s}', near '{s[begin:begin + self._sorted_keys[0]]}'")
+                raise InvalidTokenError(f"Unrecognized token in '{s}', near '{s[begin:begin + self._sorted_keys[0]]}'")
         return tuple(tokens)
 
     @classmethod

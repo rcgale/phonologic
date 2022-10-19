@@ -1,10 +1,11 @@
 import csv
+import dataclasses
 import itertools
 import multiprocessing
 import os
 import statistics
 from argparse import ArgumentParser
-from typing import Iterable, Tuple
+from typing import Iterable, Tuple, Union, IO, Dict
 
 import regex
 
@@ -72,8 +73,14 @@ def do_asr_evaluation(
 def analyze_file(filename, column_index, column_expected, column_actual, system_name, n_jobs):
     logger.info(f"Analyzing file {filename}")
     system = phonologic.load(system_name)
-    index, expecteds, actuals = _parse_input_file(filename, column_index, column_expected, column_actual)
+    comparison = ComparisonFile.load(
+        filename,
+        column_index=column_index,
+        column_left=column_expected,
+        column_right=column_actual
+    )
     analyzer = ParallelAnalyzer(system)
+    index, expecteds, actuals = zip(*((i, e, a) for i, (e, a) in comparison.rows.items()))
     return analyzer.analyze_parallel(expecteds, actuals, n_jobs, index=index)
 
 
@@ -124,28 +131,55 @@ def error_rate(items: Iterable[ErrorAnalysis]):
     return sum(distances) / total_length
 
 
-def _parse_input_file(filename, column_index, column_expected, column_actual) -> Tuple[Iterable[str], Iterable[str]]:
-    dialect_map = {"tsv": csv.excel_tab, "csv": csv.excel}
-    dialect = dialect_map.get(filename.rsplit(".", 1)[-1], csv.excel)
+@dataclasses.dataclass
+class ComparisonFile:
+    filename: str
+    labels: Tuple[str, str]
+    rows: Dict[str, Tuple[str, str]]
 
-    with open(filename) as f:
-        reader = csv.reader(f, dialect=dialect)
+    @classmethod
+    def load(
+            cls,
+            file: Union[str, IO],
+            *,
+            column_index: str = None,
+            column_left: str = None,
+            column_right: str = None
+    ) -> "ComparisonFile":
+        if isinstance(file, str):
+            with open(file) as file:
+                return cls.load(file, column_index=column_index, column_left=column_left, column_right=column_right)
+        dialect_map = {"tsv": csv.excel_tab, "csv": csv.excel}
+        dialect = dialect_map.get(file.name.rsplit(".", 1)[-1], csv.excel)
+
+        reader = csv.reader(file, dialect=dialect)
         header = next(reader)
         if len(header) < 2:
-            raise ValueError(f"Problem parsing input file {filename}")
+            raise ValueError(f"Problem parsing input file {file.name}")
 
         if len(header) == 2:
-            idx_expected = 0 if column_expected is None else header.index(column_expected)
-            idx_actual = 1 if column_actual is None else header.index(column_actual)
-            index = None
-            expecteds, actuals = zip(*((row[idx_expected], row[idx_actual]) for row in reader))
+            column_left = column_left or header[0]
+            column_right = column_right or header[1]
+            idx_left = header.index(column_left)
+            idx_right = header.index(column_right)
+            rows = {
+                i: (row[idx_left], row[idx_right])
+                for i, row in enumerate(reader)
+            }
         else:
-            idx_index = 0 if column_expected is None else header.index(column_index)
-            idx_expected = 1 if column_expected is None else header.index(column_expected)
-            idx_actual = 2 if column_actual is None else header.index(column_actual)
-            index, expecteds, actuals = zip(*((row[idx_index], row[idx_expected], row[idx_actual]) for row in reader))
+            column_index = column_index or header[0]
+            column_left = column_left or header[1]
+            column_right = column_right or header[2]
+            idx_index = header.index(column_index)
+            idx_left = header.index(column_left)
+            idx_right = header.index(column_right)
+            # row_values = zip(*((row[idx_index], row[idx_expected], row[idx_actual]) for row in reader))
+            rows = {
+                row[idx_index]: (row[idx_left], row[idx_right])
+                for row in reader
+            }
 
-        return index, expecteds, actuals
+        return cls(filename=file.name, labels=(column_left, column_right), rows=rows)
 
 
 def main():

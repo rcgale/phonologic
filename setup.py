@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='phonologic',
-    version='0.2.0',
+    version='0.3.0',
     author='Robert Gale',
     author_email='galer@ohsu.edu',
     packages=setuptools.find_packages(),
