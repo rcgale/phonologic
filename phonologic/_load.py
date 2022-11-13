@@ -13,6 +13,6 @@ def load(name) -> PhonologicalFeatureSystem:
         filename = PREDEFINED[name]
     else:
         raise PhonologicalSystemNotFoundError(name)
-    with open(filename) as f:
+    with open(filename, encoding="utf-8") as f:
         return parse_file(f)
 
