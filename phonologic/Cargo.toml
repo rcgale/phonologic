@@ -1,0 +1,18 @@
+[package]
+name = "phonologic"
+version = "0.1.0-alpha"
+edition = "2021"
+
+[lib]
+name = "phonologic"
+crate-type = ["cdylib", "lib"]
+path = "lib.rs"
+
+[dependencies]
+regex = "1"
+string-join = "0.1.2"
+#pyo3 = "0.17.3"
+lazy_static = "1.4.0"
+include_dir = "0.7.3"
+phf = { version = "0.11", features = ["macros"] }
+itertools = "0.10.5"

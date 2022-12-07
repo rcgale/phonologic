@@ -1,0 +1,16 @@
+{
+  "name": "@phonologic/phonologic",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "wasm-pack build --target web --scope phonologic --out-dir wasm --out-name wasm",
+    "build": "npm run build --workspaces --if-present",
+    "start": "npm run start --workspace=viewer"
+  },
+  "workspaces": [
+    "wasm",
+    "viewer"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

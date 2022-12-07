@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "phonologic",
+    "phonologic-js",
+    "phonologic-python"
+]

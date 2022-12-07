@@ -1,0 +1,13 @@
+[package]
+name = "phonologic_python"
+version = "0.1.0-alpha"
+edition = "2021"
+
+[lib]
+name = "phonologic_python"
+crate-type = ["cdylib", "lib"]
+path = "lib.rs"
+
+[dependencies]
+pyo3 = "0.17.3"
+phonologic = { path = "../phonologic" }
