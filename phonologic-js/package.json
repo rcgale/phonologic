@@ -2,8 +2,11 @@
   "name": "@phonologic/phonologic",
   "main": "index.js",
   "scripts": {
-    "preinstall": "wasm-pack build --target web --scope phonologic --out-dir wasm --out-name wasm",
+    "wasm": "wasm-pack build --target web --scope phonologic --out-dir wasm --out-name wasm",
+    "preinstall": "npm run wasm",
+    "prebuild": "npm run wasm",
     "build": "npm run build --workspaces --if-present",
+    "prestart": "npm run wasm",
     "start": "npm run start --workspace=viewer"
   },
   "workspaces": [

@@ -1,5 +1,7 @@
 # `phonologic`
 
+**NOTE/TODO:** This doc is quite out of date.
+
 `phonologic` is a tool for building and process phonological feature systems. It was built with automatic speech 
 recognition (ASR) / automatic phoneme recognition (APR) in mind.
 

@@ -1,6 +1,6 @@
 {
   "name": "@phonologic/viewer",
-  "version": "0.1.0-alpha04",
+  "version": "0.1.0-alpha11",
   "dependencies": {
     "@phonologic/wasm": "^0.1.0-alpha01",
     "@testing-library/jest-dom": "^5.16.5",
