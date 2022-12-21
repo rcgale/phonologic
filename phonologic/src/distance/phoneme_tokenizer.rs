@@ -2,7 +2,7 @@ use regex::Regex;
 use std::collections::HashSet;
 use string_join::Join;
 use crate::phl::systems::PhonologicalFeatureSystem;
-use crate::phl::tokenizer::Symbol;
+use crate::phl::parsing::Symbol;
 use itertools::Itertools;
 
 pub struct PhonemeTokenizer {
@@ -78,7 +78,7 @@ impl PhonemeTokenizer {
 mod tests {
     use crate::distance::phoneme_tokenizer::PhonemeTokenizer;
     use crate::phl::systems::PhonologicalFeatureSystem;
-    use crate::phl::tokenizer::Symbol;
+    use crate::phl::parsing::Symbol;
 
     #[test]
     fn test_phoneme_tokenizer() {

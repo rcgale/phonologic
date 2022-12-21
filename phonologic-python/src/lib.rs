@@ -8,9 +8,8 @@ use phonologic::distance::levenshtein::{Action, ComputeCost, LevenshteinStep};
 use phonologic::distance::phoneme_distance::PhonemeCostCalculator;
 use phonologic::distance::phoneme_tokenizer::PhonemeTokenizer;
 use phonologic::errors::PhlDistanceError;
+use phonologic::phl::parsing;
 use phonologic::phl::systems::PhonologicalFeatureSystem;
-use phonologic::phl::tokenizer;
-use phonologic::phl::tokenizer::Symbol;
 use crate::AnalysisAction::*;
 
 #[pymodule]
@@ -39,10 +38,10 @@ pub struct AnalysisStep {
 }
 
 impl AnalysisStep {
-    fn from(levenshtein_step: &LevenshteinStep<Symbol>, length: f64) -> Self {
+    fn from(levenshtein_step: &LevenshteinStep<parsing::Symbol>, length: f64) -> Self {
         let action = levenshtein_step.action.into();
-        let left = levenshtein_step.expected.clone().unwrap_or(Symbol::new("")).to_string();
-        let right = levenshtein_step.actual.clone().unwrap_or(Symbol::new("")).to_string();
+        let left = levenshtein_step.expected.clone().unwrap_or(parsing::Symbol::new("")).to_string();
+        let right = levenshtein_step.actual.clone().unwrap_or(parsing::Symbol::new("")).to_string();
         let cost = levenshtein_step.cost.0;
         AnalysisStep { action, left, right, cost, length }
     }
@@ -87,8 +86,8 @@ pub enum FeatureValue {
     Minus,
 }
 
-impl From<tokenizer::FeatureValue> for FeatureValue {
-    fn from(fv: tokenizer::FeatureValue) -> Self {
+impl From<parsing::FeatureValue> for FeatureValue {
+    fn from(fv: parsing::FeatureValue) -> Self {
         if fv.symbol == "+" { FeatureValue::Plus }
         else if fv.symbol == "+-" { FeatureValue::PlusMinus }
         else if fv.symbol == "0" { FeatureValue::Zero }
@@ -113,7 +112,7 @@ pub struct PhlAnalyzer {
 }
 
 impl PhlAnalyzer {
-    pub fn analysis<C: ComputeCost<Symbol>, LFn: Fn(&Vec<Symbol>) -> f64>(
+    pub fn analysis<C: ComputeCost<parsing::Symbol>, LFn: Fn(&Vec<parsing::Symbol>) -> f64>(
         &self,
         calculator: &C,
         left: &str,
@@ -131,7 +130,7 @@ impl PhlAnalyzer {
 
     pub fn compile_analysis(
         &self,
-        levenshtein_steps: Vec<LevenshteinStep<Symbol>>,
+        levenshtein_steps: Vec<LevenshteinStep<parsing::Symbol>>,
         length: f64
     ) -> Analysis {
         let steps: Vec<_> = levenshtein_steps
@@ -154,14 +153,14 @@ impl PhlAnalyzer {
 
     pub fn feature_diff(&self, left: &str, right: &str) -> Analysis {
         let calculator = FeatureCostCalculator::new(&self.system);
-        let length_fn = |tokens: &Vec<Symbol>| { (tokens.len() * self.system.num_features) as f64};
+        let length_fn = |tokens: &Vec<parsing::Symbol>| { (tokens.len() * self.system.num_features) as f64};
         let analysis = self.analysis(&calculator, left, right, length_fn);
         analysis.unwrap()
     }
 
     pub fn phoneme_diff(&self, left: &str, right: &str) -> Analysis {
         let calculator = PhonemeCostCalculator::new(&self.system);
-        let length_fn = |tokens: &Vec<Symbol>| tokens.len() as f64;
+        let length_fn = |tokens: &Vec<parsing::Symbol>| tokens.len() as f64;
         let analysis = self.analysis(&calculator, left, right, length_fn);
         analysis.unwrap()
     }

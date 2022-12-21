@@ -3,9 +3,7 @@ use std::hash::Hash;
 use phf::phf_map;
 use crate::errors::PhlParseError;
 use crate::errors::PhlParseError::{MustHaveDefaultError, RedefinedSymbolError, SymbolNotDefinedError, UnexpectedFeaturesError};
-use crate::phl::parser::{parse_file, parse_lines};
-use crate::phl::spec::DEFAULT_SYMBOL_STR;
-use crate::phl::tokenizer::{Definition, DefinitionItem, Feature, FeatureValue, FeatureVector, Symbol};
+use crate::phl::parsing::{parse_file, Definition, DefinitionItem, Feature, FeatureValue, FeatureVectorFunc, Parseable, PhlFile, Symbol};
 
 pub struct PhonologicalFeatureSystem {
     pub(crate) entries: Vec<PhonologicalFeatureEntry>,
@@ -65,13 +63,13 @@ impl Into<FeatureSystemIdx> for &Vec<Feature> {
 impl PhonologicalFeatureSystem {
     pub fn load(name: &str) -> Result<PhonologicalFeatureSystem, PhlParseError> {
         static PREDEFINED_SYSTEMS: phf::Map<&'static str, &'static str> = phf_map! {
-            "hayes" => include_str!("../assets/systems/hayes.phl"),
-            "hayes-arpabet" => include_str!("../assets/systems/hayes-arpabet.phl"),
-            "hayes-ipa-arpabet" => include_str!("../assets/systems/hayes-ipa-arpabet.phl"),
+            "hayes" => include_str!("../../assets/systems/hayes.phl"),
+            "hayes-arpabet" => include_str!("../../assets/systems/hayes-arpabet.phl"),
+            "hayes-ipa-arpabet" => include_str!("../../assets/systems/hayes-ipa-arpabet.phl"),
         };
 
         let definitions = match PREDEFINED_SYSTEMS.get(name) {
-            Some(&predefined_contents) => parse_lines(&predefined_contents.split("\n").collect()),
+            Some(&predefined_contents) => PhlFile::parse(predefined_contents),
             None => parse_file(name)
         };
         let definitions = definitions?;
@@ -80,9 +78,9 @@ impl PhonologicalFeatureSystem {
         Ok(system)
     }
 
-    pub fn build(definitions: &Vec<Definition>) -> Result<Self, PhlParseError> {
+    pub fn build(definitions: &PhlFile) -> Result<Self, PhlParseError> {
         let entries = Self::fold_entries(definitions)?;
-        if entries.len() == 0 || entries[0].symbol != Symbol::new(DEFAULT_SYMBOL_STR) {
+        if entries.len() == 0 || entries[0].symbol != Symbol::default() {
             return Err(MustHaveDefaultError());
         }
         let num_features = entries[0].features.len();
@@ -152,7 +150,7 @@ fn compute_features(
         symbol_map: &HashMap<Symbol, PhonologicalFeatureEntry>,
         definition: &Definition,
 ) -> Result<Vec<Feature>, PhlParseError> {
-    let default_symbol = Symbol::new(DEFAULT_SYMBOL_STR);
+    let default_symbol = Symbol::default();
 
     if definition.symbol == default_symbol {
         if definition.items.len() != 1 || definition.items[0].feat().is_none() {
@@ -203,8 +201,7 @@ fn compute_features(
 
 #[cfg(test)]
 mod tests {
-    use wasm_bindgen::UnwrapThrowExt;
-    use crate::phl::parser::parse_lines;
+    use crate::phl::parsing::{Parseable, PhlFile};
     use crate::phl::systems::PhonologicalFeatureSystem;
 
     #[test]
@@ -245,14 +242,14 @@ mod tests {
             )
         ];
         for (actual_lines, check_entries ) in test_cases {
-            let actual_definitions = parse_lines(&actual_lines).unwrap_throw();
-            let actual_system = PhonologicalFeatureSystem::build(&actual_definitions).unwrap_throw();
+            let actual_definitions = PhlFile::parse(actual_lines.join("\n").as_str()).unwrap(); //(&actual_lines).unwrap();
+            let actual_system = PhonologicalFeatureSystem::build(&actual_definitions).unwrap();
 
-            let expect_definitions = parse_lines(&check_entries).unwrap_throw();
-            let expect_system = PhonologicalFeatureSystem::build(&expect_definitions).unwrap_throw();
+            let expect_definitions = PhlFile::parse(check_entries.join("\n").as_str()).unwrap();
+            let expect_system = PhonologicalFeatureSystem::build(&expect_definitions).unwrap();
 
             for expect_entry in expect_system.entries {
-                let actual_entry = actual_system.get_for_symbol(&expect_entry.symbol).unwrap_throw();
+                let actual_entry = actual_system.get_for_symbol(&expect_entry.symbol).unwrap();
                 let expect_str: Vec<_> = expect_entry.features.iter().map(|f| format!("{f:?}")).collect();
                 let actual_str: Vec<_> = actual_entry.features.iter().map(|f| format!("{f:?}")).collect();
                 assert_eq!(expect_str, actual_str);

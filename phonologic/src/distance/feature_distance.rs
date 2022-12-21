@@ -1,6 +1,6 @@
-use crate::distance::levenshtein::{Cost, ComputeCost};
+use crate::distance::levenshtein::{ComputeCost, Cost};
 use crate::phl::systems::PhonologicalFeatureSystem;
-use crate::phl::tokenizer::{FeatureValue, Symbol};
+use crate::phl::parsing::{FeatureValue, Symbol};
 use crate::errors::PhlDistanceError;
 use crate::errors::PhlDistanceError::PhonemeNotFoundError;
 

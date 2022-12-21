@@ -26,6 +26,21 @@ pub enum PhlParseError {
 
 impl PhlError for PhlParseError {}
 
+impl Display for PhlParseError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", match self {
+            PhlParseError::InvalidTokenError(s) => s,
+            PhlParseError::InvalidFeatureValueError(s) => s,
+            PhlParseError::InvalidFeatureNameError(s) => s,
+            PhlParseError::SyntaxError(s) => s,
+            PhlParseError::RedefinedSymbolError(s) => s,
+            PhlParseError::FileReadError(s) => s,
+            PhlParseError::MustHaveDefaultError() => "",
+            PhlParseError::SymbolNotDefinedError(s) => s,
+            PhlParseError::UnexpectedFeaturesError(s) => s,
+        })
+    }
+}
 
 #[derive(Debug)]
 pub enum PhlDistanceError {

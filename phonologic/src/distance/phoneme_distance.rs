@@ -1,6 +1,6 @@
 use crate::distance::levenshtein::{ComputeCost, DefaultCalculator, Cost};
 use crate::phl::systems::PhonologicalFeatureSystem;
-use crate::phl::tokenizer::Symbol;
+use crate::phl::parsing::Symbol;
 use crate::errors::PhlDistanceError;
 
 pub struct PhonemeCostCalculator<'a> {
@@ -59,7 +59,8 @@ impl<'a> ComputeCost<Symbol> for PhonemeCostCalculator<'a> {
 #[cfg(test)]
 mod tests {
     use std::collections::{HashMap, HashSet};
-    use crate::distance::levenshtein::{Action, Cost};
+    use crate::distance::levenshtein::{Action, ComputeCost, Cost};
+    use crate::distance::phoneme_distance::PhonemeCostCalculator;
     use crate::distance::phoneme_tokenizer::PhonemeTokenizer;
     use crate::phl::systems::PhonologicalFeatureSystem;
 
@@ -142,7 +143,10 @@ mod tests {
         for (system_name, a, b, expected) in test_cases {
             let system = systems.get(&system_name).unwrap();
             let tokenizer = PhonemeTokenizer::build(system);
-            let actual = system.phoneme_edit_distance(a, b).unwrap();
+            let calculator = PhonemeCostCalculator::new(system);
+            let a_tokens = tokenizer.tokenize(a);
+            let b_tokens = tokenizer.tokenize(b);
+            let actual = calculator.diff_steps(&a_tokens, &b_tokens).unwrap();
 
             let expected_left_tokens = tokenizer.tokenize(a);
             let expected_right_tokens = tokenizer.tokenize(b);
