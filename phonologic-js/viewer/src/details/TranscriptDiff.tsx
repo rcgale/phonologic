@@ -11,36 +11,32 @@ type TranscriptDiffProps = {
     labelRight: string
 }
 
-export class TranscriptDiff extends Component<TranscriptDiffProps> {
-    render() {
-        let analysis = this.props.analysis;
-        return (
-            <div id="item" v-if="analysis">
-                        <AlignedSteps
-                            steps={analysis.features.steps}
-                            alphabet={this.props.alphabet}
-                            // detailHoverIndex={this.props.detailHoverIndex}
-                            labelLeft={this.props.labelLeft}
-                            labelRight={this.props.labelRight}
-                        />
-                        <table id="details-error-rates">
-                            <thead>
-                                <tr>
-                                    <th colSpan={2}>Utterance</th>
-                                </tr>
-                                <tr>
-                                    <th>FER</th>
-                                    <th>PER</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><ErrorRate value={analysis.fer} /></td>
-                                    <td><ErrorRate value={analysis.per} /></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                </div>
-        );
-    }
+export function TranscriptDiff({alphabet, analysis, labelLeft, labelRight}: TranscriptDiffProps) {
+    return (
+        <div id="item" v-if="analysis">
+                    <AlignedSteps
+                        steps={analysis.features.steps}
+                        alphabet={alphabet}
+                        labelLeft={labelLeft}
+                        labelRight={labelRight}
+                    />
+                    <table id="details-error-rates">
+                        <thead>
+                            <tr>
+                                <th colSpan={2}>Utterance</th>
+                            </tr>
+                            <tr>
+                                <th>FER</th>
+                                <th>PER</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><ErrorRate value={analysis.fer} /></td>
+                                <td><ErrorRate value={analysis.per} /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+    );
 }

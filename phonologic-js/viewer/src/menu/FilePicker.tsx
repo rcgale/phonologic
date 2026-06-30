@@ -1,39 +1,38 @@
-import {ChangeEvent, Component} from "react";
+import {ChangeEvent, useState} from "react";
+import {Button, Container, Form} from "react-bootstrap";
+import {EXAMPLE_FILE} from "../Example";
 
-type FilePickerProps = {
+interface FilePickerProps {
     upload: (file: File) => void
-};
+    onReset: () => void
+    useDemoFile: (file: File) => void
+}
 
-type FilePickerState = {
-    loading: boolean
-};
-
-export class FilePicker extends Component<FilePickerProps, FilePickerState> {
-    constructor(props: FilePickerProps) {
-        super(props);
-        this.state = {
-            loading: false
-        }
-    }
-    uploadFile = async (element: ChangeEvent<HTMLInputElement>) => {
-        this.setState({loading: true});
+export function FilePicker({upload, onReset, useDemoFile}: FilePickerProps) {
+    const [loading, setLoading] = useState(false);
+    const uploadFile = async (element: ChangeEvent<HTMLInputElement>) => {
+        setLoading(true);
         if (element.target.files?.length) {
-            this.props.upload(element.target.files[0]);
+            upload(element.target.files[0]);
         }
-        this.setState({loading: false});
+        setLoading(false)
     }
-    render() {
-        return (
-            <div className="file-picker">
-                <label htmlFor="select-file">Choose a File:</label>
-                <input type="file" onChange={this.uploadFile} />
-                {this.state.loading &&
-                    <div className="loading-container">
-                        <div className="loader">&nbsp;</div>
-                        Processing...
-                    </div>
-                }
 
-            </div>        );
-    }
+    return (
+        <Container className="file-picker">
+            <Form.Label htmlFor="select-file">Choose a File:
+                <Form.Control type="file" onChange={uploadFile} />
+            </Form.Label>
+            <Button variant="secondary" onClickCapture={() => onReset()}>Reset</Button>
+            <Button variant="light" onClickCapture={ () => useDemoFile(EXAMPLE_FILE) }>
+                    Example
+            </Button>
+            {loading &&
+                <div className="loading-container">
+                    <div className="loader">&nbsp;</div>
+                    Processing...
+                </div>
+            }
+        </Container>
+    );
 }

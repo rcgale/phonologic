@@ -1,7 +1,8 @@
 import {TranscriptDiff} from "./TranscriptDiff";
 import {Details} from "./Details";
 import {Analysis} from "../services/AnalysisService";
-import {Component} from "react";
+import {Component, useState} from "react";
+import {HoverContext} from "../HoverContext";
 
 type SelectedModalProps = {
     deselect: () => void,
@@ -12,36 +13,34 @@ type SelectedModalProps = {
     labelRight: string
 }
 
-export class SelectedModal extends Component<SelectedModalProps, {detailHoverIndex: number}> {
-    render() {
-        return (
-            <div id="selected-modal" style={{visibility: this.props.selectedId ? "visible" : "hidden"}}>
-                {(this.props.selectedId && this.props.analysis &&
+export function SelectedModal({deselect, selectedId, analysis, alphabet, labelLeft, labelRight}: SelectedModalProps) {
+    return (
+        <div id="selected-modal" style={{visibility: selectedId ? "visible" : "hidden"}}>
+            <HoverContext value={useState()}>
+                {(selectedId && analysis &&
                     <div id="selected-analysis">
-                        <button className="close-selected" onClickCapture={() => this.props.deselect()}>✕</button>
-                        <h2>{this.props.selectedId}</h2>
+                        <button className="close-selected" onClickCapture={() => deselect()}>✕</button>
+                        <h2>{selectedId}</h2>
                         <TranscriptDiff
-                            key={this.props.selectedId}
-                            analysis={this.props.analysis}
-                            alphabet={this.props.alphabet}
-                            // detailHoverIndex={this.props.detailHoverIndex}
-                            labelLeft={this.props.labelLeft}
-                            labelRight={this.props.labelRight}
+                            key={selectedId}
+                            analysis={analysis}
+                            alphabet={alphabet}
+                            // detailHoverIndex={detailHoverIndex}
+                            labelLeft={labelLeft}
+                            labelRight={labelRight}
                         />
                         {/*<AudioPlayer utteranceId="selectedId" />*/}
                     </div>
                 ) || null}
-                {(this.props.selectedId && this.props.analysis &&
+                {(selectedId && analysis &&
                     <Details
-                        key={this.props.selectedId}
-                        selectedId={this.props.selectedId}
-                        analysis={this.props.analysis}
-                        alphabet={this.props.alphabet}
-                        // detailHoverIndex={this.props.detailHoverIndex}
-                        // updateHoverIndex={(idx: number) => this.setState({detailHoverIndex: idx})}
+                        key={selectedId}
+                        selectedId={selectedId}
+                        analysis={analysis}
+                        alphabet={alphabet}
                     />
                 ) || null}
-            </div>
-        );
-    }
+            </HoverContext>
+        </div>
+    );
 }

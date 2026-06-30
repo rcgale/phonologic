@@ -1,12 +1,12 @@
-import {Component} from "react";
+import * as React from "react";
 
 type TranscriptFormattedProps = {
     transcript: string,
     alphabet: string
 };
 
-export class TranscriptFormatted extends Component<TranscriptFormattedProps, {}> {
-    formatTranscript(tokens: string[] | string) {
+export function TranscriptFormatted({transcript, alphabet}: TranscriptFormattedProps){
+    function formatTranscript(tokens: string[] | string) {
         if (!tokens) {
             return "";
         }
@@ -23,17 +23,15 @@ export class TranscriptFormatted extends Component<TranscriptFormattedProps, {}>
             "IH": "ɪ", "UH": "ʊ", "EH": "ɛ", "EY": "e͡ɪ", "AH": "ʌ", "AO": "ɔ", "OY": "ɔ͡ɪ", "OW": "o͡ʊ",
             "AE": "æ", "AW": "a͡ʊ", "AY": "a͡ɪ", "AA": "ɑ", "ER": "ɝ"
         }
-        if (this.props.alphabet === "ipa") {
+        if (alphabet === "ipa") {
             return tokens.map(t => arpaToIpa[t] || t).join("");
         }
         else {
             return tokens.join(" ");
         }
     }
-    render() {
-        let transcriptFormatted = this.formatTranscript(this.props.transcript);
-        return (
-            <span className="transcript">{transcriptFormatted}</span>
-        )
-    }
+    let transcriptFormatted = formatTranscript(transcript);
+    return (
+        <span className="transcript">{transcriptFormatted}</span>
+    )
 }

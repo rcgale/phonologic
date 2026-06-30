@@ -1,12 +1,13 @@
-import {Component} from "react";
+import * as React from "react";
 
+interface ErrorRateProps {
+    value: number
+}
 
-export class ErrorRate extends Component<{ value: number }> {
-    render() {
-        return (
-            <span>
-                {(this.props.value * 100).toFixed(1)}%
-            </span>
-        );
-    }
+export function ErrorRate({value}: ErrorRateProps) {
+    return (
+        <span>
+            {(value * 100).toFixed(1)}%
+        </span>
+    );
 }

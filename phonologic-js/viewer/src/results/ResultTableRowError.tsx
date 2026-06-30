@@ -8,7 +8,7 @@ export default defineComponent({
     template: `
       <tr v-if="analysisException" class="analysis-error">
           <td class="column-utterance-id">
-            <button>{{ analysisException.id }}</button>
+            <Button>{{ analysisException.id }}</Button>
           </td>
           <td class="column-transcript">
             {{analysisException.message}}

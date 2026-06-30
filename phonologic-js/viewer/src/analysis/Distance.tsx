@@ -1,10 +1,10 @@
-import {Component} from "react";
-import {AnalysisDetails} from "../services/AnalysisService";
+import * as React from "react";
 
-export class Distance extends Component<{ analysisDetails: AnalysisDetails }> {
-    render() {
-        let distance = this.props.analysisDetails.distance;
-        let length = this.props.analysisDetails.expectedLength;
-        return <span>{distance} / {length}</span>;
-    }
+interface DistanceProps {
+    distance: number
+    expectedLength: number
+}
+
+export function Distance({distance, expectedLength}: DistanceProps) {
+    return <span>{distance} / {expectedLength}</span>;
 }

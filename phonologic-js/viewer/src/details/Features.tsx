@@ -5,8 +5,8 @@ type FeaturesProps = {
     delta: FeatureDelta
 }
 
-export class Features extends Component<FeaturesProps> {
-    value(value: number) {
+export function Features({delta}: FeaturesProps) {
+    function value(value: number) {
         switch (value) {
             case -1:
                 return `–`;
@@ -21,32 +21,29 @@ export class Features extends Component<FeaturesProps> {
         }
     }
 
-    cost(delta: FeatureDelta) {
+    function cost(delta: FeatureDelta) {
         let name = (delta.left || delta.right).replace(/[+\-0]/, '')
         return `Cost for [${name}]: ${delta.cost}`
     }
 
-    render() {
-        let delta = this.props.delta;
-        let left = `${delta.left.replace("-", "–")}${delta.name}`;
-        let right = `${delta.right.replace("-", "–")}${delta.name}`;
-        return (
-            <span title={delta.cost.toString()}>
-                {(delta.left && delta.right &&
-                    <span>{left} &rarr; {right}</span>
+    const left = `${delta.left.replace("-", "–")}${delta.name}`;
+    const right = `${delta.right.replace("-", "–")}${delta.name}`;
+    return (
+        <span title={delta.cost.toString()}>
+            {(delta.left && delta.right &&
+                <span>{left} &rarr; {right}</span>
 
-                ) || null}
-                {(delta.left && !delta.right &&
-                    <span>
-                        {left}
-                    </span>
-                ) || null}
-                {(!delta.left && delta.right &&
-                    <span>
-                        {right}
-                    </span>
-                ) || null}
-            </span>
-        );
-    }
+            ) || null}
+            {(delta.left && !delta.right &&
+                <span>
+                    {left}
+                </span>
+            ) || null}
+            {(!delta.left && delta.right &&
+                <span>
+                    {right}
+                </span>
+            ) || null}
+        </span>
+    );
 }
