@@ -1,6 +1,6 @@
 {
   "name": "@phonologic/viewer",
-  "version": "0.1.0-alpha17",
+  "version": "0.1.0-alpha18",
   "type": "module",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",

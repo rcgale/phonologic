@@ -37,7 +37,7 @@ export function ResultTableRow({onSelect, analysis, alphabet, labelLeft, labelRi
                 <ErrorRate value={analysis.phonemes.errorRate} />
             </td>
             <td className="column-error-counts">
-                <Distance distance={analysis.phonemes.distance} expectedLength={analysis.features.expectedLength} />
+                <Distance distance={analysis.phonemes.distance} expectedLength={analysis.phonemes.expectedLength} />
             </td>
         </tr>
     );
