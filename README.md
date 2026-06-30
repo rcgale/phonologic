@@ -195,20 +195,12 @@ The `phonologic-viewer` tool gives you a chance to visually explore a phonologic
 Please note that we provide no guarantee of support, but we hope you find it helpful, informative, and perhaps 
 even fun!
 
+A usable demo version of the tool can be found at [https://robertcgale.com/phonologic/](https://robertcgale.com/phonologic/).
+
 For input, we'll need an input file. The tool expects a file in tab-separated (.tsv) or comma-separated (.csv) format,
 with the first three columns containing an index/name, a reference transcript, and a transcript to compare to the 
-reference, respectively. An example file can be found at [docs/example_file.tsv](docs/example_file.tsv). If you place
-the file in your current directory, you can run the viewer with the command:
-
-```python
-phonologic-viewer --system hayes-arpabet example_file.tsv
-```
-
-Note that the example file uses ARPAbet, so the `hayes-arpabet` system is specified. If no system is specified, the 
+reference, respectively. An example file can be found at [docs/example_file.tsv](docs/example_file.tsv). Note that the example file uses ARPAbet, so the `hayes-arpabet` system is specified. If no system is specified, the 
 `hayes` (IPA) system is used by default.
-
-The command starts a local web server at `http://localhost:8000`. If you navigate to that URL, you can explore your results in
-an interactive way. Your transcripts with the highest FER appear first.
 
 <img src="docs/images/pssteval-viewer-list.png" style="max-width: 480px;">
 
