@@ -1,0 +1,21 @@
+field = { (ASCII_DIGIT | "." | "-")+ }
+
+name_char_illegal = @{"]#"}
+name_char = @{!name_char_illegal ~ (LETTER | MARK | OTHER_SYMBOL | "_")}
+name = @{name_char ~ (name_char|NUMBER)* }
+class_name = ${ "<" ~ name ~ ">" }
+symbol = @{name|class_name}
+feature_value = @{"+-"|"-+"|"-"|"+"|"0"|"?"}
+feature = ${feature_value ~ name}
+
+feature_set = { ("[" ~ "]") | ("[" ~ feature ~ ("," ~ feature)* ~ ","? ~ "]")}
+definition_item = {feature_set | class_name | name }
+definition_items = {definition_item+}
+feature_definition = { (class_name | name ) ~ "=" ~ definition_items ~ (newline | EOI) }
+
+phl_file = {SOI ~ (feature_definition|newline)+ ~ EOI}
+
+newline = _{"\r"? ~ "\n"}
+WHITESPACE = _{!newline ~ WHITE_SPACE+ }
+COMMENT = _{ "#"+ ~ (!newline ~ ANY)* }
+

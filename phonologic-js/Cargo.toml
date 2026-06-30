@@ -1,0 +1,13 @@
+[package]
+name = "wasm"
+version = "0.1.0-alpha01"
+edition = "2021"
+
+[lib]
+name = "phonologic_wasm"
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2.88"
+js-sys = "0.3.60"
+phonologic = { path = "../phonologic" }

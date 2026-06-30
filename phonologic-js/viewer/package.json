@@ -1,0 +1,62 @@
+{
+  "name": "@phonologic/viewer",
+  "version": "0.1.0-alpha17",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/module.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    },
+    "./dist/viewer.css": "./dist/viewer.css"
+  },
+  "files": [
+    "dist",
+    "dist/*.{css,js,map}"
+  ],
+  "peerDependencies": {
+    "@phonologic/wasm": "^0.1.0-alpha01"
+  },
+  "dependencies": {
+    "@types/bootstrap": ">=5",
+    "@types/react": ">=18",
+    "@types/react-dom": ">=18",
+    "bootstrap": ">=5",
+    "react": ">=18",
+    "react-bootstrap": ">=2",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": ">=16",
+    "@vitejs/plugin-react": "^6.0.2",
+    "typescript": ">=4",
+    "unplugin-dts": "^1.0.2",
+    "vite": "^8.0.16"
+  },
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@phonologic/was": ["./phonologic-js/wasm"],
+      "@phonologic/viewer": ["./phonologic-js/viewer"],
+    }
+  }
+}
