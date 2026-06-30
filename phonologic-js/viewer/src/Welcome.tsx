@@ -48,7 +48,7 @@ export function Welcome({useDemoFile}: WelcomeProps) {
                     the proceedings of {RapidAtLrecLink}.
                 </p>
                 <p>
-                    The source code for this tool is <a href="https://github.com/rcgale/phonologic/tree/rusty">available on GitHub</a>.
+                    The source code for this tool is <a href="https://github.com/rcgale/phonologic/">available on GitHub</a>.
                 </p>
                 <h2>How to use PhonoLogic</h2>
                 <p>
