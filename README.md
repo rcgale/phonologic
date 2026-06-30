@@ -19,7 +19,8 @@ We also include a tool `phonologic-viewer` to visually trace and explore phonolo
    1. [Included Systems](#included-systems)
    2. [Composing/modifying your own system](#composingmodifying-your-own-system)
    3. [Diphthongs](#diphthongs)
-4. [`phonologic-viewer` - an interactive phonological distance viewer](#phonologic-viewer---an-interactive-phonological-distance-viewer)
+4. [Basic diff features](#basic-diff-features)
+5. [`phonologic-viewer` - an interactive phonological distance viewer](#phonologic-viewer---an-interactive-phonological-distance-viewer)
 
 
 ## Installation
@@ -39,8 +40,7 @@ only tells us whether each phoneme was correct/incorrect, feature distance gives
 a transcript was to our expectations. For example, if our target is /bɹʌʃ/ "brush", but an APR suggests /bʊʃ/ "bush", 
 a phoneme-level edit distance would count one deletion and one substitution for two errors. However, we're interested in 
 a more nuanced difference between /ʌ/ and /ʊ/, which according to the Hayes system adds three features: 
-[+labial, +high, +round]. 
-
+[+labial, +high, +round].
 
 ## Feature systems
 
@@ -188,6 +188,40 @@ for step in analysis.steps:
 
 ```
 
+## Basic diff features
+
+The tool was designed with phonological distance in mind, but it's also a general-purpose tool for Levenshtein distances:
+
+```
+import phonologic
+
+
+d = phonologic.edit_distance("cat", "bat")
+```
+
+Above, `d` is a `LevenshteinCost` object, which contains the full trace:
+
+```
+LevenshteinCost(
+    action=EQ, expected='t', actual='t', cost=1.0, previous=LevenshteinCost(
+        action=EQ, expected='a', actual='a', cost=1.0, previous=LevenshteinCost(
+            action=SUB, expected='c', actual='b', cost=1.0, previous=LevenshteinCost(
+                action=None, expected=None, actual=None, cost=0, previous=None
+            )
+        )
+    )
+)
+```
+
+But a `LevenshteinCost` is actually a decorated `float`:
+```
+assert isinstance(d, float) and  d == 1.0  # passes
+```
+
+And we can do distances with any iterable:
+```
+assert phonologic.edit_distance([1, 2, 3], [1, 3, 4]) == 2.0
+```
 
 ## `phonologic-viewer` - an interactive phonological distance viewer
 
